@@ -1,79 +1,66 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class Graph {
 	private ArrayList<Vertex> listVertex = null;
 	private ArrayList<Edge> listEdge = null;
-	
-	public Graph(){
+
+	public Graph() {
 		listVertex = new ArrayList<>();
 		listEdge = new ArrayList<>();
 	}
-	
-	public Graph(ArrayList<Vertex> listVertex, ArrayList<Edge> listEdge){
+
+	public Graph(ArrayList<Vertex> listVertex, ArrayList<Edge> listEdge) {
 		this.listVertex = listVertex;
 		this.listEdge = listEdge;
 	}
-	
-	class Vertex implements Comparable<Vertex> {
-		public String name;
-		public ArrayList<Edge> neighbors = null;
 
-		public Vertex(String name) {
-			this.name = name;
-			listVertex.add(this);
-		}
-		
-		@Override
-		public int compareTo(Vertex o) {
-			return 0;
-		}
-		
-		public void setNeighbor(Vertex target, Zone zoneType){
-			if (neighbors == null) neighbors = new ArrayList<>();
-			Edge e = new Edge(this, target, zoneType);
-			neighbors.add(e);
-		}
+	public ArrayList<Vertex> getListVertex() {
+		return listVertex;
 	}
 
-	class Edge {
-		public Vertex source;
-		public Vertex target;
-		public double weight;
+	public ArrayList<Edge> getListEdge() {
+		return listEdge;
+	}
 
-		public Edge(Vertex source, Vertex target) {
-			this.source = source;
-			this.target = target;
-			weight = 1;
-			listEdge.add(this);
+	public List<Vertex> dijkstra(Vertex start, Vertex destination) {
+		// ReinitVertex
+		for (Vertex vertex : listVertex) {
+			vertex.setMinDistance(Double.POSITIVE_INFINITY);
 		}
 
-		public Edge(Vertex source, Vertex target, Zone zoneType) {
-			this.source = source;
-			this.target = target;
+		// ComputePaths
+		start.setMinDistance(0.);
+		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
+		vertexQueue.add(start);
 
-			switch (zoneType) {
-			case NORMAL:
-				this.weight = 1;
-				break;
-			case GRASS:
-				this.weight = 2;
-				break;
-			default:
-				this.weight = 1;
-				break;
+		while (!vertexQueue.isEmpty()) {
+			Vertex current = vertexQueue.poll();
+
+			for (Edge e : getListEdge()) {
+				if (e.getSource().compareTo(current) == 0) {
+					Vertex v = e.getTarget();
+					double weight = e.getWeight();
+					double distanceThroughHead = current.getMinDistance()
+							+ weight;
+					if (distanceThroughHead < v.getMinDistance()) {
+						vertexQueue.remove(v);
+						v.setMinDistance(distanceThroughHead);
+						v.previous = current;
+						vertexQueue.add(v);
+					}
+				}
 			}
-			listEdge.add(this);
 		}
 
-		public Edge(Vertex source, Vertex target, double weight) {
-			this.source = source;
-			this.target = target;
-			this.weight = weight;
-			listEdge.add(this);
-		}
-	}
+		// GetShortestPath
+		List<Vertex> path = new ArrayList<Vertex>();
+		for (Vertex vertex = destination; vertex != null; vertex = vertex.previous)
+			path.add(vertex);
+		Collections.reverse(path);
 
-	public enum Zone {
-		NORMAL, GRASS;
+		return path;
 	}
 }
