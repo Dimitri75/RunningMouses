@@ -12,11 +12,6 @@ public class Graph {
 		listEdge = new ArrayList<>();
 	}
 
-	public Graph(ArrayList<Vertex> listVertex, ArrayList<Edge> listEdge) {
-		this.listVertex = listVertex;
-		this.listEdge = listEdge;
-	}
-
 	public ArrayList<Vertex> getListVertex() {
 		return listVertex;
 	}
