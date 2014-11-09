@@ -48,7 +48,7 @@ public class Graph {
 					if (distanceThroughHead < v.getMinDistance()) {
 						vertexQueue.remove(v);
 						v.setMinDistance(distanceThroughHead);
-						v.setPrevious(current);
+						v.previous = current;
 						vertexQueue.add(v);
 					}
 				}
@@ -57,7 +57,7 @@ public class Graph {
 
 		// GetShortestPath
 		List<Vertex> path = new ArrayList<Vertex>();
-		for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious())
+		for (Vertex vertex = destination; vertex != null; vertex = vertex.previous)
 			path.add(vertex);
 		Collections.reverse(path);
 

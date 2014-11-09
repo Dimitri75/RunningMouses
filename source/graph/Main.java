@@ -1,9 +1,9 @@
+
 public class Main {
 	public static void main(String[] args) {
-		// Exemple du Graph Wikipedia
-		// http://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
+		//Exemple du Graph Wikipedia
 		Graph myGraph = new Graph();
-
+		
 		Vertex a = new Vertex("A", myGraph);
 		Vertex b = new Vertex("B", myGraph);
 		Vertex c = new Vertex("C", myGraph);
@@ -14,7 +14,7 @@ public class Main {
 		Vertex h = new Vertex("H", myGraph);
 		Vertex i = new Vertex("I", myGraph);
 		Vertex j = new Vertex("J", myGraph);
-
+		
 		new Edge(a, b, 85, myGraph);
 		new Edge(a, c, 217, myGraph);
 		new Edge(a, e, 173, myGraph);
@@ -26,8 +26,8 @@ public class Main {
 		new Edge(f, i, 250, myGraph);
 		new Edge(h, j, 167, myGraph);
 		new Edge(i, j, 84, myGraph);
-
-		for (Vertex v : myGraph.dijkstra(a, j)) {
+		
+		for (Vertex v : myGraph.dijkstra(a, e)) {
 			System.out.println(v.getName());
 		}
 	}
