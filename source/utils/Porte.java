@@ -18,11 +18,21 @@ public class Porte {
 	}
 	
 	public Porte(int _x, int _y){
+		lot = new LinkedStack<Souris>();
 		x = _x;
 		y= _y;
 	}
 	
-	public void add(Souris _s){
+	public Porte(int size, int _x, int _y){
+		this(_x, _y);
+		for(int i =0; i<size;i++)
+		{
+			this.add(new Souris(-1,-1));
+		}
+	}
+	
+	
+	private void add(Souris _s){
 		lot.push(_s);
 	}
 	
