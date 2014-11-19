@@ -1,7 +1,6 @@
 package source.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,21 +10,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import source.map.FrameCard2;
+
 
 public class SimuUI extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextArea porte1;
 	private JTextArea porte2;
 	private JTextArea vitesse;
@@ -38,6 +42,11 @@ public class SimuUI extends JFrame {
 	private ImageIcon image2;
 	private JButton lancer;
 	
+	private JPanel map;
+	private JLabel myLabel;
+	private int nbLigne=0;
+    private int nbColonne=0;
+	
 	
 	public SimuUI(String _title){
 		
@@ -45,7 +54,7 @@ public class SimuUI extends JFrame {
 		
 		//Dimensions
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize.width/2,screenSize.height/2);
+		setSize(1280,680);
 		
 		//background setting
 		String imagePath = "/res/img/fond.png";
@@ -73,15 +82,20 @@ public class SimuUI extends JFrame {
 		Container ct = getContentPane();
 		Box b = Box.createVerticalBox();
 		// panel map pour la map de Rachid
-		JPanel map = new JPanel(){
-            private static final long serialVersionUID = 1L;
-
-            
-            public void paintComponent(Graphics g)
-            {
-                g.drawImage(image.getImage(), 0, 0, null);
-            }
-        };
+		map = new JPanel();
+		myLabel = new JLabel();
+		//Appel de la classe FrameCard pour le dessin de la map
+		FrameCard2 fc = new FrameCard2(map,myLabel);
+		javax.swing.GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(map);
+        map.setLayout(jpMyPanelLayout);
+        jpMyPanelLayout.setHorizontalGroup(
+            jpMyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 401, Short.MAX_VALUE)
+        );
+        jpMyPanelLayout.setVerticalGroup(
+            jpMyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 298, Short.MAX_VALUE)
+        );
 		// footer de l'appli
 		JPanel footer = new JPanel(){
             private static final long serialVersionUID = 1L;
@@ -143,7 +157,6 @@ public class SimuUI extends JFrame {
 		footer2.add(lancer);
 		
 		footer.add(footer2);
-		map.setPreferredSize(new Dimension(700,400));
 		b.add(map);
 		b.add(footer);
 		ct.add(b);
