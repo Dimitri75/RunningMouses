@@ -15,13 +15,20 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import source.map.FrameCard2;
+
+import source.map.FrameCard;
 
 
 public class SimuUI extends JFrame {
@@ -47,7 +54,11 @@ public class SimuUI extends JFrame {
 	private int nbLigne=0;
     private int nbColonne=0;
 	
-	
+    private FrameCard fc;
+    private JFileChooser jfc;
+    private String pathToFile = "";
+    
+    
 	public SimuUI(String _title){
 		
 		setTitle(_title);
@@ -78,6 +89,50 @@ public class SimuUI extends JFrame {
 		//Put in middle of the screen
 		setLocationRelativeTo(null);
 		
+		//Menu
+		JMenuBar myMenuBar = new JMenuBar();
+		JMenu myMenuFichier = new JMenu("Fichier");
+		JMenuItem myItemOuvrir = new JMenuItem("Ouvrir");
+		JMenuItem myItemQuitter = new JMenuItem("Quitter");
+		myItemOuvrir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				jfc = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			        "text only", "txt");
+			    jfc.setFileFilter(filter);
+			    int returnVal = jfc.showOpenDialog(SimuUI.this);
+			    if(returnVal == JFileChooser.APPROVE_OPTION)
+			    {
+			    	pathToFile = jfc.getSelectedFile().getAbsolutePath();
+			    	fc = new FrameCard(map,myLabel,pathToFile);
+			    	javax.swing.GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(map);
+			        map.setLayout(jpMyPanelLayout);
+			        jpMyPanelLayout.setHorizontalGroup(
+			            jpMyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+			            .addGap(0, 401, Short.MAX_VALUE)
+			        );
+			        jpMyPanelLayout.setVerticalGroup(
+			            jpMyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+			            .addGap(0, 298, Short.MAX_VALUE)
+			        );
+			    }
+			}
+		});
+		myItemQuitter.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				int choice = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment quitter le programme ?");
+				switch(choice)
+				{
+					case 0 : System.exit(0);
+					default : break;
+				}
+			}
+		});
+		myMenuFichier.add(myItemOuvrir);
+		myMenuFichier.add(myItemQuitter);
+		myMenuBar.add(myMenuFichier);
+		setJMenuBar(myMenuBar);
+		
 		
 		Container ct = getContentPane();
 		Box b = Box.createVerticalBox();
@@ -85,7 +140,7 @@ public class SimuUI extends JFrame {
 		map = new JPanel();
 		myLabel = new JLabel();
 		//Appel de la classe FrameCard pour le dessin de la map
-		FrameCard2 fc = new FrameCard2(map,myLabel);
+	    fc = new FrameCard(map,myLabel,pathToFile);
 		javax.swing.GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(map);
         map.setLayout(jpMyPanelLayout);
         jpMyPanelLayout.setHorizontalGroup(

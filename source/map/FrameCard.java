@@ -18,7 +18,7 @@ public class FrameCard {
     private JLabel myLabel;
     private JPanel jpMyPanel;
     
-    public FrameCard(JPanel map, JLabel _myLabel) {
+    public FrameCard(JPanel map, JLabel _myLabel, String pathToFile) {
     	jpMyPanel = map;
     	myLabel = _myLabel;
         char[][] matrice;
@@ -39,7 +39,7 @@ public class FrameCard {
         urlMur="src/res/img/mur.png";
         urlVide="src/res/img/vide.png";
         
-        matrice=myMatrice("src/res/img/map.txt");
+        matrice=myMatrice(pathToFile);
         /*
         
         • * : un mur URL MUR
