@@ -6,7 +6,7 @@ import java.util.Timer;
 
 public class TimerJob {
 	public Timer timer;
-	int cpt = 1;
+	int lap = 0;
 
 	public TimerJob(String period) {
 		long per = 1000;
@@ -23,11 +23,14 @@ public class TimerJob {
 
 	class MyTask extends TimerTask {
 		public void run() {
-			if (cpt >= 60)
+			lap++;
+			if (lap > 250)
 				timer.cancel();
-			System.out.println((cpt % 2 != 0) ? "Tic(" + new Date() + ")" : "Tac("
-					+ new Date() + ")");
-			cpt++;
+
+			System.out.println("Tour(" + lap + ") - Déplacement(" + lap
+					+ ") - Souris en déplacement(" + lap
+					+ ") - Souris arrivées(" + lap + ")");
+			System.out.println(new Date() + "\n");
 		}
 	}
 }
