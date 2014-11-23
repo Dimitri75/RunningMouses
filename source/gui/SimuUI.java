@@ -32,7 +32,7 @@ public class SimuUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextArea porte1;
 	private JTextArea porte2;
-	private JTextArea vitesse;
+	private JTextArea period;
 	
 	private JTextField porte1Text;
 	private JTextField porte2Text;
@@ -175,26 +175,23 @@ public class SimuUI extends JFrame {
             }
         };
 		footer.add(footer1);
-		porte1Text = new JTextField("Points de départ: ");
+		porte1Text = new JTextField("Portes 1: ");
 		porte1Text.setEditable(false);
-		porte2Text = new JTextField("Points d'arrivée: ");
+		porte2Text = new JTextField("Portes 2: ");
 		porte2Text.setEditable(false);
-		vitesseText = new JTextField("Vitesse: ");
+		vitesseText = new JTextField("Période: ");
 		vitesseText.setEditable(false);
 		porte1 = new JTextArea(1,5);
 		porte2 = new JTextArea(1,5);
-		vitesse = new JTextArea(1,10);
+		period = new JTextArea(1,10);
 		porte1.setText("5");
 		porte2.setText("5");
-		vitesse.setText("1");
+		period.setText("1");
 		lancer = new JButton("Lancer");
 		lancer.addActionListener(new ActionListener(){
 			//Démarre la simulation
 			public void actionPerformed(ActionEvent arg0) {
-				long speed = Long.parseLong(vitesse.getText());
-				TimerJob timerJob = new TimerJob(speed);
-				
-				
+				TimerJob timerJob = new TimerJob(period.getText());
 			}
 		});
 		
@@ -203,7 +200,7 @@ public class SimuUI extends JFrame {
 		footer2.add(porte2Text);
 		footer2.add(porte2);
 		footer2.add(vitesseText);
-		footer2.add(vitesse);
+		footer2.add(period);
 		footer2.add(lancer);
 		
 		footer.add(footer2);
