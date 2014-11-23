@@ -1,5 +1,4 @@
-package source.gui;
-
+package gui;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -27,15 +26,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
-import source.map.FrameCard;
-
+import map.FrameCard;
 
 public class SimuUI extends JFrame {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextArea porte1;
 	private JTextArea porte2;
@@ -57,7 +50,6 @@ public class SimuUI extends JFrame {
     private FrameCard fc;
     private JFileChooser jfc;
     private String pathToFile = "";
-    
     
 	public SimuUI(String _title){
 		
@@ -118,6 +110,7 @@ public class SimuUI extends JFrame {
 			    }
 			}
 		});
+		
 		myItemQuitter.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				int choice = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment quitter le programme ?");
@@ -182,27 +175,29 @@ public class SimuUI extends JFrame {
             }
         };
 		footer.add(footer1);
-		porte1Text = new JTextField("Porte 1 : ");
+		porte1Text = new JTextField("Points de départ: ");
 		porte1Text.setEditable(false);
-		porte2Text = new JTextField("Porte 2 : ");
+		porte2Text = new JTextField("Points d'arrivée: ");
 		porte2Text.setEditable(false);
-		vitesseText = new JTextField("Vitesse : ");
+		vitesseText = new JTextField("Vitesse: ");
 		vitesseText.setEditable(false);
 		porte1 = new JTextArea(1,5);
 		porte2 = new JTextArea(1,5);
 		vitesse = new JTextArea(1,10);
-		porte1.setText("30");
-		porte2.setText("30");
-		vitesse.setText("500");
+		porte1.setText("5");
+		porte2.setText("5");
+		vitesse.setText("1");
 		lancer = new JButton("Lancer");
 		lancer.addActionListener(new ActionListener(){
 			//Démarre la simulation
 			public void actionPerformed(ActionEvent arg0) {
+				long speed = Long.parseLong(vitesse.getText());
+				TimerJob timerJob = new TimerJob(speed);
 				
 				
 			}
-			
 		});
+		
 		footer2.add(porte1Text);
 		footer2.add(porte1);
 		footer2.add(porte2Text);
