@@ -1,4 +1,4 @@
-package source.utils;
+package utils;
 
 public class Souris {
 	private int x;
