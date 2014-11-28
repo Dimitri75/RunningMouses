@@ -36,20 +36,26 @@ public class SimuUI extends JFrame {
 	private JTextArea porte2;
 	private JTextArea period;
 
+	//Composants Footer
 	private JTextField porte1Text;
 	private JTextField porte2Text;
 	private JTextField vitesseText;
-
 	private ImageIcon image;
 	private ImageIcon image2;
 	private JButton lancer;
-
+	private JButton pause;
+	private JLabel nbTour;
+	private JLabel nbDeplacements;
+	private JLabel mouseInMov;
+	private JLabel mouseArrived;
+	
 	private JPanel map;
 	private JLabel myLabel;
 	private int nbLigne = 0;
 	private int nbColonne = 0;
 
 	private SimulationAlgo djikstraPolynomialComplexityAlgorithmEngine;
+	private TimerJob timerJob;
 	
 	private boolean isLaunched = false;
 
@@ -137,21 +143,10 @@ public class SimuUI extends JFrame {
 
 		Container ct = getContentPane();
 		Box b = Box.createVerticalBox();
-		// panel map pour la map de Rachid
 		map = new JPanel();
+		map.setPreferredSize(new Dimension(900, 500));
 		myLabel = new JLabel();
-		/* Appel de la classe FrameCard pour le dessin de la map
-		fc = new FrameCard(map, myLabel, pathToFile);
-		javax.swing.GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(
-				map);
-		map.setLayout(jpMyPanelLayout);
-		jpMyPanelLayout.setHorizontalGroup(jpMyPanelLayout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 401,
-				Short.MAX_VALUE));
-		jpMyPanelLayout.setVerticalGroup(jpMyPanelLayout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 298,
-				Short.MAX_VALUE));
-		// footer de l'appli*/
+		// Footer général de l'appli
 		JPanel footer = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -160,7 +155,7 @@ public class SimuUI extends JFrame {
 			}
 		};
 		footer.setLayout(new GridLayout(1, 2));
-
+		// Premier Footer (gauche)
 		JPanel footer1 = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -168,6 +163,7 @@ public class SimuUI extends JFrame {
 				g.drawImage(image.getImage(), 0, 0, null);
 			}
 		};
+		// Deuxième Footer (droite)
 		JPanel footer2 = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -175,7 +171,20 @@ public class SimuUI extends JFrame {
 				g.drawImage(image2.getImage(), 0, 0, null);
 			}
 		};
+		//Elements footer1
+		nbTour = new JLabel("Tour : ");
+		nbDeplacements = new JLabel("Déplacements : ");
+		mouseInMov = new JLabel("Souris en déplacements : ");
+		mouseArrived = new JLabel("Souris arrivées : ");
+		
+		footer1.add(nbTour);
+		footer1.add(nbDeplacements);
+		footer1.add(mouseInMov);
+		footer1.add(mouseArrived);
 		footer.add(footer1);
+		
+		
+		//Elements footer2
 		porte1Text = new JTextField("Portes 1: ");
 		porte1Text.setEditable(false);
 		porte2Text = new JTextField("Portes 2: ");
@@ -188,6 +197,13 @@ public class SimuUI extends JFrame {
 		porte1.setText("5");
 		porte2.setText("5");
 		period.setText("1");
+		pause = new JButton("Pause");
+		pause.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				timerJob.pause();
+			}
+		});
 		lancer = new JButton("Lancer");
 		lancer.addActionListener(new ActionListener() {
 			// Démarre la simulation
@@ -196,13 +212,14 @@ public class SimuUI extends JFrame {
 					djikstraPolynomialComplexityAlgorithmEngine = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
 					djikstraPolynomialComplexityAlgorithmEngine.getDoor1().setSize(Integer.parseInt(porte1.getText()));
 					djikstraPolynomialComplexityAlgorithmEngine.getDoor2().setSize(Integer.parseInt(porte2.getText()));
-					
-					TimerJob timerJob = new TimerJob(period.getText());
+
+					timerJob = new TimerJob(period.getText());
+					timerJob.setComponents(map, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
 					isLaunched = true;
 				}
 			}
 		});
-
+		
 		footer2.add(porte1Text);
 		footer2.add(porte1);
 		footer2.add(porte2Text);
@@ -210,6 +227,7 @@ public class SimuUI extends JFrame {
 		footer2.add(vitesseText);
 		footer2.add(period);
 		footer2.add(lancer);
+		footer2.add(pause);
 
 		footer.add(footer2);
 		b.add(map);
