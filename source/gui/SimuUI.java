@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import map.FrameCard;
@@ -210,14 +211,20 @@ public class SimuUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!isLaunched) {
 					djikstraPolynomialComplexityAlgorithmEngine = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
+					System.out.println("Porte en ("+fc.getDoor1().getX()+","+fc.getDoor1().getY()+")");
+					System.out.println("Porte en ("+fc.getDoor2().getX()+","+fc.getDoor2().getY()+")");
 					djikstraPolynomialComplexityAlgorithmEngine.getDoor1().setSize(Integer.parseInt(porte1.getText()));
 					djikstraPolynomialComplexityAlgorithmEngine.getDoor2().setSize(Integer.parseInt(porte2.getText()));
+					djikstraPolynomialComplexityAlgorithmEngine.setMatrice(fc.getMatrice());
 
 					timerJob = new TimerJob(period.getText());
-					timerJob.setComponents(map, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+					timerJob.setComponents(djikstraPolynomialComplexityAlgorithmEngine, map, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+					timerJob.setPathToFile(pathToFile);
 					isLaunched = true;
 				}
+				
 			}
+			
 		});
 		
 		footer2.add(porte1Text);

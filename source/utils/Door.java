@@ -41,18 +41,17 @@ public class Door {
 	
 	
 	//Methode pour spawn les souris, choisis directement le premier slot libre 
-	public Souris spawn(){
+	public Souris spawn(int x, int y){
 		Souris temp = null;
 		try {
 			temp = lot.pop();
 		} catch (StackEmptyException e) {
 			return null;
 		}
-		/*
-		 * Code pour set les coordonnées de la souris à afficher
-		temp.setX(0);
-		temp.setY(0);
-		*/
+		
+		temp.setX(x);
+		temp.setY(y);
+		
 		return temp;
 		
 	}

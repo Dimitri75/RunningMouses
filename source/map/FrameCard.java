@@ -105,10 +105,10 @@ public class FrameCard {
 				// y= index de la ligne*222
 				case ('D'):
 					if (isFirstDoor) {
-						door1 = new Door(countC, countL);
+						door1 = new Door(countL, countC);
 						isFirstDoor = false;
 					} else
-						door2 = new Door(countC, countL);
+						door2 = new Door(countL, countC);
 
 					myLabel = new JLabel(new ImageIcon(urlPorte));
 					myLabel.setSize(100, 100);
@@ -120,6 +120,10 @@ public class FrameCard {
 		}
 
 		jpMyPanel.setPreferredSize(new Dimension(900, 500));
+	}
+
+	public char[][] getMatrice() {
+		return matrice;
 	}
 
 	public Door getDoor1() {
