@@ -32,6 +32,7 @@ public class FrameCard {
 	private Door door1, door2;
 	private boolean isFirstDoor = true;
 
+		//Constructeur principale affichage de la carte au depart
 	public FrameCard(JPanel map, JLabel _myLabel, String pathToFile) {
 		jpMyPanel = map;
 		myLabel = _myLabel;
@@ -123,7 +124,7 @@ public class FrameCard {
 
 		jpMyPanel.setPreferredSize(new Dimension(900, 500));
 	}
-	
+	//Constructeur qui affiche les souris en meme temps
 	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel, String pathToFile) {
 		jpMyPanel = map;
 		myLabel = _myLabel;

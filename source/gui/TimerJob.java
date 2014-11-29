@@ -1,25 +1,16 @@
 package gui;
 
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import map.FrameCard;
-import utils.Door;
+
 import utils.SimulationAlgo;
-import utils.Souris;
 
 public class TimerJob {
-	private String pathToFile;
 	
 	public Timer timer;
 	private boolean isPaused = false;
@@ -36,10 +27,9 @@ public class TimerJob {
 	private JLabel mouseArrived;
 	private int mouseA = 0;
 	
-	private JPanel map;
+
 	private JButton pause;
 	
-	private FrameCard fc;
 	private SimulationAlgo dijkstra;
 	
 
@@ -61,8 +51,6 @@ public class TimerJob {
 				dijkstra.moveMovingMouses();
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor1());
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor2());
-				
-				
 				//MAJ du text
 				nbTour.setText("Tour : "+lap);
 				nbDeplacements.setText("Déplacements : " +nbDep);
@@ -74,20 +62,15 @@ public class TimerJob {
 				mouseInMov.repaint();
 				mouseArrived.repaint();
 				
-				/*System.out.println("Tour(" + lap + ") - Déplacement(" + lap
-						+ ") - Souris en déplacement(" + lap
-						+ ") - Souris arrivées(" + lap + ")");
-				System.out.println(new Date() + "\n");	*/
 				
 			}
 			
 		});
 		timer.start();
 	}
-	public void setComponents(SimulationAlgo sa, JPanel jp, JButton jb, JLabel jl1, JLabel jl2, JLabel jl3, JLabel jl4)
+	public void setComponents(SimulationAlgo sa, JButton jb, JLabel jl1, JLabel jl2, JLabel jl3, JLabel jl4)
 	{
 		dijkstra = sa;
-		map = jp;
 		pause = jb;
 		nbTour = jl1;
 		nbDeplacements = jl2;
@@ -108,9 +91,6 @@ public class TimerJob {
 			timer.stop();
 			isPaused = true;
 		}
-	}
-	public void setPathToFile(String pathToFile) {
-		this.pathToFile = pathToFile;
 	}
 
 	

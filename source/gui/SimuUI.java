@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -25,13 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.RepaintManager;
-import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import map.FrameCard;
 import utils.SimulationAlgo;
-import utils.Souris;
 
 public class SimuUI extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -54,8 +50,6 @@ public class SimuUI extends JFrame {
 	
 	private JPanel map;
 	private JLabel myLabel;
-	private int nbLigne = 0;
-	private int nbColonne = 0;
 
 	private SimulationAlgo djikstraPolynomialComplexityAlgorithmEngine;
 	private TimerJob timerJob = null;
@@ -70,7 +64,6 @@ public class SimuUI extends JFrame {
 		setTitle(_title);
 
 		// Dimensions
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(1280, 680);
 
 		// background setting
@@ -147,6 +140,11 @@ public class SimuUI extends JFrame {
 		Container ct = getContentPane();
 		Box b = Box.createVerticalBox();
 		map = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void paintComponent(Graphics g) {
 				
 				super.paintComponent(g);
@@ -247,8 +245,7 @@ public class SimuUI extends JFrame {
 					djikstraPolynomialComplexityAlgorithmEngine.setMatrice(fc.getMatrice());
 
 					timerJob = new TimerJob(period.getText());
-					timerJob.setComponents(djikstraPolynomialComplexityAlgorithmEngine, map, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
-					timerJob.setPathToFile(pathToFile);
+					timerJob.setComponents(djikstraPolynomialComplexityAlgorithmEngine, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
 					isLaunched = true;
 				}
 				
