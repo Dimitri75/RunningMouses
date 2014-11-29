@@ -25,11 +25,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RepaintManager;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import map.FrameCard;
 import utils.SimulationAlgo;
+import utils.Souris;
 
 public class SimuUI extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -56,7 +58,7 @@ public class SimuUI extends JFrame {
 	private int nbColonne = 0;
 
 	private SimulationAlgo djikstraPolynomialComplexityAlgorithmEngine;
-	private TimerJob timerJob;
+	private TimerJob timerJob = null;
 	
 	private boolean isLaunched = false;
 
@@ -144,7 +146,34 @@ public class SimuUI extends JFrame {
 
 		Container ct = getContentPane();
 		Box b = Box.createVerticalBox();
-		map = new JPanel();
+		map = new JPanel() {
+			public void paintComponent(Graphics g) {
+				
+				super.paintComponent(g);
+				if (timerJob != null) {
+					this.removeAll();
+					fc = new FrameCard(this,timerJob.getDijkstra().getMatriceMouse(), new JLabel(), pathToFile);
+					this.revalidate();
+						
+				}
+				
+				GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(
+						this);
+				this.setLayout(jpMyPanelLayout);
+
+				jpMyPanelLayout.setHorizontalGroup(jpMyPanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGap(0, 401, Short.MAX_VALUE));
+
+				jpMyPanelLayout.setVerticalGroup(jpMyPanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGap(0, 298, Short.MAX_VALUE));
+				this.setPreferredSize(new Dimension(900, 500));
+				
+			}
+		};
 		map.setPreferredSize(new Dimension(900, 500));
 		myLabel = new JLabel();
 		// Footer général de l'appli

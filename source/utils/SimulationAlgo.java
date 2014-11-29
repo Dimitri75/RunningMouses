@@ -8,6 +8,7 @@ public class SimulationAlgo {
 	private Graph myGraph;
 	private char[][] matrice;
 	private char[][] matriceMouse;
+	
 	private Door door1, door2;
 	private ArrayList<Souris> movingMouses = new ArrayList<>();
 	
@@ -16,7 +17,11 @@ public class SimulationAlgo {
 		this.door1 = door1;
 		this.door2 = door2;
 	}
-
+	
+	public char[][] getMatriceMouse() {
+		return matriceMouse;
+	}
+	
 	public Graph getMyGraph() {
 		return myGraph;
 	}

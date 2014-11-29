@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
 
 import utils.Door;
 
@@ -116,12 +117,114 @@ public class FrameCard {
 					break;
 				}
 				jpMyPanel.add(myLabel);
+				
 			}
 		}
 
 		jpMyPanel.setPreferredSize(new Dimension(900, 500));
 	}
+	
+	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel, String pathToFile) {
+		jpMyPanel = map;
+		myLabel = _myLabel;
+		String urlFromage, urlSabelette, urlPorte, urlHerbe, urlMur, urlVide;
+		/*
+		 * 
+		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
+		 * zone de déplacement URL VIDE • D : les points d'apparition des
+		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
+		 * FROMAGE
+		 */
+		urlFromage = "src/res/img/fromage.png";
+		urlSabelette = "src/res/img/sabelette.png";
+		urlPorte = "src/res/img/porte.png";
+		urlHerbe = "src/res/img/herbe.png";
+		urlMur = "src/res/img/mur.png";
+		urlVide = "src/res/img/vide.png";
 
+		matrice = myMatrice(pathToFile);
+		/*
+		 * 
+		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
+		 * zone de déplacement URL VIDE • D : les points d'apparition des
+		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
+		 * FROMAGE
+		 */
+		char result;
+		// remplissage du JPanel
+		for (int countC = 0; countC < nbColonne; countC++) {
+			for (int countL = 0; countL < nbLigne; countL++) {
+				Vertex v;
+				Vertex y;
+				result = matrice[countL][countC];
+				if(mouseTable[countL][countC] == 'M')
+				{
+					myLabel = new JLabel(new ImageIcon(urlSabelette));
+					myLabel.setSize(100, 100);
+					myLabel.setLocation(countC * 25, countL * 25);
+				}
+				else
+				{
+					switch (result) {
+					// si la valeur est '*' on affiche un mur
+					// a la localisation x=index de la colonne*22
+					// y= index de la ligne*222
+					case ('*'):
+						myLabel = new JLabel(new ImageIcon(urlMur));
+						myLabel.setSize(100, 100);
+						myLabel.setLocation(countC * 25, countL * 25);
+						break;
+					// si la valeur est ' ' on affiche un l'image vide
+					// a la localisation x=index de la colonne*22
+					// y= index de la ligne*222
+					case (' '):
+						myLabel = new JLabel(new ImageIcon(urlVide));
+						myLabel.setSize(100, 100);
+						myLabel.setLocation(countC * 25, countL * 25);
+						v = new Vertex(countC, countL, myGraph);
+						break;
+					// si la valeur est 'G' on affiche de l'herbe
+					// a la localisation x=index de la colonne*22
+					// y= index de la ligne*222
+					case ('G'):
+						myLabel = new JLabel(new ImageIcon(urlHerbe));
+						myLabel.setSize(100, 100);
+						myLabel.setLocation(countC * 25, countL * 25);
+						v = new Vertex(countC, countL, myGraph);
+						break;
+					// si la valeur est 'A' on affiche un fromage
+					// a la localisation x=index de la colonne*22
+					// y= index de la ligne*222
+					case ('A'):
+						myLabel = new JLabel(new ImageIcon(urlFromage));
+						myLabel.setSize(100, 100);
+						myLabel.setLocation(countC * 25, countL * 25);
+						v = new Vertex(countC, countL, myGraph);
+						break;
+					// si la valeur est 'D' on affiche une porte
+					// a la localisation x=index de la colonne*22
+					// y= index de la ligne*222
+					case ('D'):
+						if (isFirstDoor) {
+							door1 = new Door(countL, countC);
+							isFirstDoor = false;
+						} else
+							door2 = new Door(countL, countC);
+
+						myLabel = new JLabel(new ImageIcon(urlPorte));
+						myLabel.setSize(100, 100);
+						myLabel.setLocation(countC * 25, countL * 25);
+						break;
+					}
+				}
+				
+				jpMyPanel.add(myLabel);
+				
+			}
+		}
+
+		jpMyPanel.setPreferredSize(new Dimension(900, 500));
+	}
 	public char[][] getMatrice() {
 		return matrice;
 	}

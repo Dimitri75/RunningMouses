@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import map.FrameCard;
@@ -38,6 +39,7 @@ public class TimerJob {
 	private JPanel map;
 	private JButton pause;
 	
+	private FrameCard fc;
 	private SimulationAlgo dijkstra;
 	
 
@@ -59,21 +61,6 @@ public class TimerJob {
 				dijkstra.moveMovingMouses();
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor1());
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor2());
-				displayAllMouses();
-				
-				GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(
-						map);
-				map.setLayout(jpMyPanelLayout);
-
-				jpMyPanelLayout.setHorizontalGroup(jpMyPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGap(0, 401, Short.MAX_VALUE));
-
-				jpMyPanelLayout.setVerticalGroup(jpMyPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGap(0, 298, Short.MAX_VALUE));
 				
 				
 				//MAJ du text
@@ -82,12 +69,11 @@ public class TimerJob {
 				mouseInMov.setText("Souris en déplacements : "+dijkstra.getMovingMouses().size());
 				mouseArrived.setText("Souris arrivées : "+mouseA);
 				//Repaint des composants
-				map.repaint();
 				nbTour.repaint();
 				nbDeplacements.repaint();
 				mouseInMov.repaint();
 				mouseArrived.repaint();
-				map.setPreferredSize(new Dimension(900, 500));
+				
 				/*System.out.println("Tour(" + lap + ") - Déplacement(" + lap
 						+ ") - Souris en déplacement(" + lap
 						+ ") - Souris arrivées(" + lap + ")");
@@ -128,20 +114,8 @@ public class TimerJob {
 	}
 
 	
-	private void displayAllMouses(){
-		JLabel tile, myLabel = null;
-		String urlSabelette = "src/res/img/sabelette.png";
-		
-		FrameCard fc = new FrameCard(map, myLabel, pathToFile);
-		
-		for(Souris m : dijkstra.getMovingMouses())
-		{
-			tile = new JLabel(new ImageIcon(urlSabelette));
-			tile.setSize(100, 100);
-			System.out.println("Souris en ("+m.getX()+","+m.getY()+")");
-			tile.setLocation(m.getX() * 25, m.getY() * 25);
-			map.add(tile);
-		}
-		
+	
+	public SimulationAlgo getDijkstra() {
+		return dijkstra;
 	}
 }
