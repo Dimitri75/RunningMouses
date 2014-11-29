@@ -51,11 +51,12 @@ public class Graph {
 				}
 			}
 		}
-
+		vertexQueue.clear();
 		// GetShortestPath
 		List<Vertex> path = new ArrayList<Vertex>();
 		for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious())
 			path.add(vertex);
+			
 		Collections.reverse(path);
 
 		return path;

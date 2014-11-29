@@ -30,6 +30,8 @@ public class FrameCard {
 	private char[][] matrice;
 	private Graph myGraph = new Graph();
 	private Door door1, door2;
+	private Vertex vertexFromage1,vertexFromage2;
+	private boolean isFirstFromage = true;
 	private boolean isFirstDoor = true;
 
 		//Constructeur principale affichage de la carte au depart
@@ -82,7 +84,7 @@ public class FrameCard {
 					myLabel = new JLabel(new ImageIcon(urlVide));
 					myLabel.setSize(100, 100);
 					myLabel.setLocation(countC * 25, countL * 25);
-					v = new Vertex(countC, countL, myGraph);
+					v = new Vertex(countL, countC, myGraph);
 					break;
 				// si la valeur est 'G' on affiche de l'herbe
 				// a la localisation x=index de la colonne*22
@@ -91,16 +93,20 @@ public class FrameCard {
 					myLabel = new JLabel(new ImageIcon(urlHerbe));
 					myLabel.setSize(100, 100);
 					myLabel.setLocation(countC * 25, countL * 25);
-					v = new Vertex(countC, countL, myGraph);
+					v = new Vertex(countL, countC, myGraph);
 					break;
 				// si la valeur est 'A' on affiche un fromage
 				// a la localisation x=index de la colonne*22
 				// y= index de la ligne*222
 				case ('A'):
+					if(isFirstFromage){
+						vertexFromage1 = new Vertex(countL, countC, myGraph);
+						isFirstFromage = false;
+					}else
+						vertexFromage2 = new Vertex(countL, countC, myGraph);
 					myLabel = new JLabel(new ImageIcon(urlFromage));
 					myLabel.setSize(100, 100);
 					myLabel.setLocation(countC * 25, countL * 25);
-					v = new Vertex(countC, countL, myGraph);
 					break;
 				// si la valeur est 'D' on affiche une porte
 				// a la localisation x=index de la colonne*22
@@ -123,6 +129,12 @@ public class FrameCard {
 		}
 
 		jpMyPanel.setPreferredSize(new Dimension(900, 500));
+	}
+	public Vertex getVertexFromage1() {
+		return vertexFromage1;
+	}
+	public Vertex getVertexFromage2() {
+		return vertexFromage2;
 	}
 	//Constructeur qui affiche les souris en meme temps
 	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel, String pathToFile) {
@@ -290,8 +302,8 @@ public class FrameCard {
 
 	public void generateEdges() {
 		char tile;
-		for (int x = 0; x <= nbColonne; x++) {
-			for (int y = 0; y <= nbLigne; y++) {
+		for (int y= 0; y < nbColonne-1; y++) {
+			for (int x = 0; x < nbLigne-1; x++) {
 				Edge e;
 				Vertex source = null;
 				Vertex target = null;
@@ -311,6 +323,7 @@ public class FrameCard {
 								target = v;
 						}
 						e = new Edge(source, target, EnumKey.NORMAL, myGraph);
+						e = new Edge(target, source, EnumKey.NORMAL, myGraph);
 					}
 					if (matrice[x][y + 1] == ' ' || matrice[x][y + 1] == 'G'
 							|| matrice[x][y + 1] == 'A') {
@@ -319,6 +332,7 @@ public class FrameCard {
 								target = v;
 						}
 						e = new Edge(source, target, EnumKey.NORMAL, myGraph);
+						e = new Edge(target, source, EnumKey.NORMAL, myGraph);
 					}
 					break;
 				case ('G'):
@@ -329,6 +343,7 @@ public class FrameCard {
 								target = v;
 						}
 						e = new Edge(source, target, EnumKey.GRASS, myGraph);
+						e = new Edge(target, source, EnumKey.GRASS, myGraph);
 					}
 					if (matrice[x][y + 1] == ' ' || matrice[x][y + 1] == 'G'
 							|| matrice[x][y + 1] == 'A') {
@@ -338,6 +353,7 @@ public class FrameCard {
 						}
 
 						e = new Edge(source, target, EnumKey.GRASS, myGraph);
+						e = new Edge(target, source, EnumKey.GRASS, myGraph);
 					}
 					break;
 				case ('A'):
@@ -348,6 +364,7 @@ public class FrameCard {
 								target = v;
 						}
 						e = new Edge(source, target, EnumKey.NORMAL, myGraph);
+						e = new Edge(target, source, EnumKey.NORMAL, myGraph);
 					}
 					if (matrice[x][y + 1] == ' ' || matrice[x][y + 1] == 'G'
 							|| matrice[x][y + 1] == 'A') {
@@ -357,6 +374,7 @@ public class FrameCard {
 						}
 
 						e = new Edge(source, target, EnumKey.NORMAL, myGraph);
+						e = new Edge(target, source, EnumKey.NORMAL, myGraph);
 					}
 					break;
 				default:

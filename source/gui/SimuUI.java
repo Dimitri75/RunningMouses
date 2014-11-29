@@ -51,7 +51,7 @@ public class SimuUI extends JFrame {
 	private JPanel map;
 	private JLabel myLabel;
 
-	private SimulationAlgo djikstraPolynomialComplexityAlgorithmEngine;
+	private SimulationAlgo disjktraAlgo;
 	private TimerJob timerJob = null;
 	
 	private boolean isLaunched = false;
@@ -103,6 +103,7 @@ public class SimuUI extends JFrame {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					pathToFile = jfc.getSelectedFile().getAbsolutePath();
 					fc = new FrameCard(map, myLabel, pathToFile);
+					fc.generateEdges();
 					GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(
 							map);
 					map.setLayout(jpMyPanelLayout);
@@ -237,15 +238,15 @@ public class SimuUI extends JFrame {
 			// Démarre la simulation
 			public void actionPerformed(ActionEvent arg0) {
 				if (!isLaunched) {
-					djikstraPolynomialComplexityAlgorithmEngine = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
-					System.out.println("Porte en ("+fc.getDoor1().getX()+","+fc.getDoor1().getY()+")");
-					System.out.println("Porte en ("+fc.getDoor2().getX()+","+fc.getDoor2().getY()+")");
-					djikstraPolynomialComplexityAlgorithmEngine.getDoor1().setSize(Integer.parseInt(porte1.getText()));
-					djikstraPolynomialComplexityAlgorithmEngine.getDoor2().setSize(Integer.parseInt(porte2.getText()));
-					djikstraPolynomialComplexityAlgorithmEngine.setMatrice(fc.getMatrice());
+					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
+					disjktraAlgo.setVertexFromage1(fc.getVertexFromage1());
+					disjktraAlgo.setVertexFromage2(fc.getVertexFromage2());
+					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
+					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
+					disjktraAlgo.setMatrice(fc.getMatrice());
 
 					timerJob = new TimerJob(period.getText());
-					timerJob.setComponents(djikstraPolynomialComplexityAlgorithmEngine, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+					timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
 					isLaunched = true;
 				}
 				

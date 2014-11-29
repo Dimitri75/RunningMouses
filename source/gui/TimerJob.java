@@ -19,13 +19,10 @@ public class TimerJob {
 	private int lap = 0;
 	
 	private JLabel nbDeplacements;
-	private int nbDep = 0;
 	
 	private JLabel mouseInMov;
-	private int mouseIM = 0;
 	
 	private JLabel mouseArrived;
-	private int mouseA = 0;
 	
 
 	private JButton pause;
@@ -53,15 +50,16 @@ public class TimerJob {
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor2());
 				//MAJ du text
 				nbTour.setText("Tour : "+lap);
-				nbDeplacements.setText("Déplacements : " +nbDep);
+				nbDeplacements.setText("Déplacements : " +dijkstra.getNbDep());
 				mouseInMov.setText("Souris en déplacements : "+dijkstra.getMovingMouses().size());
-				mouseArrived.setText("Souris arrivées : "+mouseA);
+				mouseArrived.setText("Souris arrivées : "+dijkstra.getMouseA());
 				//Repaint des composants
 				nbTour.repaint();
 				nbDeplacements.repaint();
 				mouseInMov.repaint();
 				mouseArrived.repaint();
-				
+				if(dijkstra.getMovingMouses().size() == 0)
+					timer.stop();
 				
 			}
 			
