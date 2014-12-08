@@ -1,6 +1,8 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import graph.Graph;
@@ -18,12 +20,141 @@ public class SimulationAlgo {
 	private int mouseA = 0;
 	
 	private Door door1, door2;
+	private HashMap<Vertex, List<Vertex>> listPaths = new HashMap<>();
+
 	private ArrayList<Souris> movingMouses = new ArrayList<>();
 	
 	public SimulationAlgo(Graph myGraph, Door door1, Door door2){
 		this.myGraph = myGraph;
 		this.door1 = door1;
 		this.door2 = door2;
+		
+		//Calcul des chemins dijkstra
+		for (Vertex v : myGraph.getListVertex()){
+			//	D = Door
+			//	S = Point de départ (start)
+			//					X
+			//				  S D X
+			//					X
+			//Porte 1
+			if (v.getX() == door1.getX()-1  && v.getY() == door1.getY()){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//Porte 2
+			if (v.getX() == door2.getX()-1  && v.getY() == door2.getY()){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//	D = Door
+			//	S = Point de départ (start)
+			//					X
+			//				  X D S
+			//					X
+			//Porte 1
+			if (v.getX() == door1.getX()+1  && v.getY() == door1.getY()){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//Porte2
+			if (v.getX() == door2.getX()+1  && v.getY() == door2.getY()){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//	D = Door
+			//	S = Point de départ (start)
+			//					S
+			//				  X D X
+			//					X
+			//Porte 1
+			if (v.getX() == door1.getX()  && v.getY() == door1.getY()+1){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//Porte 2
+			if (v.getX() == door2.getX()-1  && v.getY() == door2.getY()+1){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//	D = Door
+			//	S = Point de départ (start)
+			//					X
+			//				  X D X
+			//					S
+			//Porte 1
+			if (v.getX() == door1.getX()-1  && v.getY() == door1.getY()-1){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+			
+			//Porte 2
+			if (v.getX() == door2.getX()-1  && v.getY() == door2.getY()-1){
+				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
+				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+				
+				if (firstPath.size() >= secondPath.size()){
+					listPaths.put(v, firstPath);
+				}
+				else{
+					listPaths.put(v, secondPath);
+				}
+			}
+		}
 	}
 	
 	public char[][] getMatriceMouse() {

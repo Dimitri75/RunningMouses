@@ -26,6 +26,7 @@ public class Graph {
 		// ReinitVertex
 		for (Vertex vertex : listVertex) {
 			vertex.setMinDistance(Double.POSITIVE_INFINITY);
+			vertex.setPrevious(null);
 		}
 
 		// ComputePaths
@@ -52,6 +53,7 @@ public class Graph {
 			}
 		}
 		vertexQueue.clear();
+		
 		// GetShortestPath
 		List<Vertex> path = new ArrayList<Vertex>();
 		for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious())

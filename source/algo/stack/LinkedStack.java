@@ -8,12 +8,9 @@ import algo.stack.exception.StackEmptyException;
 import algo.stack.interfaces.ILifo;
 
 public class LinkedStack<V> implements ILifo<V>{
-
     public LinkSimple<V> myStack = null;
 	protected Iterator<V> it;
-    
 
-    
 	public Iterator<V> iterator() {
         return new Iterator<V>(){
         	private int index = 0;
