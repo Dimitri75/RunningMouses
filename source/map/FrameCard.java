@@ -13,231 +13,179 @@ import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.RepaintManager;
 
 import utils.Door;
 
-/**
- * 
- * @author Rachid_2
- */
 public class FrameCard {
 	private int nbLigne = 0;
 	private int nbColonne = 0;
+	
 	private JLabel myLabel;
-	private JPanel jpMyPanel;
+	private JPanel myMap;
+	
 	private char[][] matrice;
 	private Graph myGraph = new Graph();
+	
 	private Door door1, door2;
-	private Vertex vertexFromage1,vertexFromage2;
+	private Vertex vertexFromage1, vertexFromage2;
 	private boolean isFirstFromage = true;
 	private boolean isFirstDoor = true;
 
-		//Constructeur principale affichage de la carte au depart
 	public FrameCard(JPanel map, JLabel _myLabel, String pathToFile) {
-		jpMyPanel = map;
-		myLabel = _myLabel;
-		String urlFromage, urlSabelette, urlPorte, urlHerbe, urlMur, urlVide;
-		/*
-		 * 
-		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
-		 * zone de déplacement URL VIDE • D : les points d'apparition des
-		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
-		 * FROMAGE
-		 */
-		urlFromage = "src/res/img/fromage.png";
-		urlSabelette = "src/res/img/sabelette.png";
-		urlPorte = "src/res/img/porte.png";
-		urlHerbe = "src/res/img/herbe.png";
-		urlMur = "src/res/img/mur.png";
-		urlVide = "src/res/img/vide.png";
+		this.myMap = map;
+		this.myLabel = _myLabel;
+
+		String urlFromage = "src/res/img/fromage.png";
+		String urlPorte = "src/res/img/porte.png";
+		String urlHerbe = "src/res/img/herbe.png";
+		String urlMur = "src/res/img/mur.png";
+		String urlVide = "src/res/img/vide.png";
 
 		matrice = myMatrice(pathToFile);
-		/*
-		 * 
-		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
-		 * zone de déplacement URL VIDE • D : les points d'apparition des
-		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
-		 * FROMAGE
-		 */
 		char result;
-		// remplissage du JPanel
-		for (int countC = 0; countC < nbColonne; countC++) {
-			for (int countL = 0; countL < nbLigne; countL++) {
+		// Remplissage du JPanel
+		for (int y = 0; y < nbColonne; y++) {
+			for (int x = 0; x < nbLigne; x++) {
 				Vertex v;
-				Vertex y;
-				result = matrice[countL][countC];
+				result = matrice[x][y];
 				switch (result) {
-				// si la valeur est '*' on affiche un mur
-				// a la localisation x=index de la colonne*22
-				// y= index de la ligne*222
+				// Mur
 				case ('*'):
 					myLabel = new JLabel(new ImageIcon(urlMur));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
+					myLabel.setLocation(y * 32, x * 32);
 					break;
-				// si la valeur est ' ' on affiche un l'image vide
-				// a la localisation x=index de la colonne*22
-				// y= index de la ligne*222
+				// Zone de déplacement
 				case (' '):
 					myLabel = new JLabel(new ImageIcon(urlVide));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
-					v = new Vertex(countL, countC, myGraph);
+					myLabel.setLocation(y * 32, x * 32);
+					v = new Vertex(x, y, myGraph);
 					break;
-				// si la valeur est 'G' on affiche de l'herbe
-				// a la localisation x=index de la colonne*22
-				// y= index de la ligne*222
+				// Zone d'herbe
 				case ('G'):
 					myLabel = new JLabel(new ImageIcon(urlHerbe));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
-					v = new Vertex(countL, countC, myGraph);
+					myLabel.setLocation(y * 32, x * 32);
+					v = new Vertex(x, y, myGraph);
 					break;
-				// si la valeur est 'A' on affiche un fromage
-				// a la localisation x=index de la colonne*22
-				// y= index de la ligne*222
+				// Fromage
 				case ('A'):
-					if(isFirstFromage){
-						vertexFromage1 = new Vertex(countL, countC, myGraph);
+					if (isFirstFromage) {
+						vertexFromage1 = new Vertex(x, y, myGraph);
 						isFirstFromage = false;
-					}else
-						vertexFromage2 = new Vertex(countL, countC, myGraph);
+					} else
+						vertexFromage2 = new Vertex(x, y, myGraph);
 					myLabel = new JLabel(new ImageIcon(urlFromage));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
+					myLabel.setLocation(y * 32, x * 32);
 					break;
-				// si la valeur est 'D' on affiche une porte
-				// a la localisation x=index de la colonne*22
-				// y= index de la ligne*222
+				// Porte
 				case ('D'):
 					if (isFirstDoor) {
-						door1 = new Door(countL, countC);
+						door1 = new Door(x, y);
 						isFirstDoor = false;
 					} else
-						door2 = new Door(countL, countC);
+						door2 = new Door(x, y);
 
 					myLabel = new JLabel(new ImageIcon(urlPorte));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
+					myLabel.setLocation(y * 32, x * 32);
 					break;
 				}
-				jpMyPanel.add(myLabel);
-				
+				myMap.add(myLabel);
 			}
 		}
-
-		jpMyPanel.setPreferredSize(new Dimension(900, 500));
+		myMap.setPreferredSize(new Dimension(1176, 664));
 	}
+
 	public Vertex getVertexFromage1() {
 		return vertexFromage1;
 	}
+
 	public Vertex getVertexFromage2() {
 		return vertexFromage2;
 	}
-	//Constructeur qui affiche les souris en meme temps
-	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel, String pathToFile) {
-		jpMyPanel = map;
+
+	// Constructeur qui affiche les souris en meme temps
+	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel,
+			String pathToFile) {
+		myMap = map;
 		myLabel = _myLabel;
-		String urlFromage, urlSabelette, urlPorte, urlHerbe, urlMur, urlVide;
-		/*
-		 * 
-		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
-		 * zone de déplacement URL VIDE • D : les points d'apparition des
-		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
-		 * FROMAGE
-		 */
-		urlFromage = "src/res/img/fromage.png";
-		urlSabelette = "src/res/img/sabelette.png";
-		urlPorte = "src/res/img/porte.png";
-		urlHerbe = "src/res/img/herbe.png";
-		urlMur = "src/res/img/mur.png";
-		urlVide = "src/res/img/vide.png";
+
+		String urlFromage = "src/res/img/fromage.png";
+		String urlSabelette = "src/res/img/sabelette.png";
+		String urlPorte = "src/res/img/porte.png";
+		String urlHerbe = "src/res/img/herbe.png";
+		String urlMur = "src/res/img/mur.png";
+		String urlVide = "src/res/img/vide.png";
 
 		matrice = myMatrice(pathToFile);
-		/*
-		 * 
-		 * • * : un mur URL MUR • G : une zone d'herbe URL HERBE • ' ' : une
-		 * zone de déplacement URL VIDE • D : les points d'apparition des
-		 * personnages URL PORTE • A : les points d'arrivée des personnages. URL
-		 * FROMAGE
-		 */
 		char result;
-		// remplissage du JPanel
-		for (int countC = 0; countC < nbColonne; countC++) {
-			for (int countL = 0; countL < nbLigne; countL++) {
+		// Remplissage du JPanel
+		for (int y = 0; y < nbColonne; y++) {
+			for (int x = 0; x < nbLigne; x++) {
 				Vertex v;
-				Vertex y;
-				result = matrice[countL][countC];
-				if(mouseTable[countL][countC] == 'M')
-				{
+				result = matrice[x][y];
+				if (mouseTable[x][y] == 'M') {
 					myLabel = new JLabel(new ImageIcon(urlSabelette));
 					myLabel.setSize(100, 100);
-					myLabel.setLocation(countC * 25, countL * 25);
-				}
-				else
-				{
+					myLabel.setLocation(y * 32, x * 32);
+				} else {
 					switch (result) {
-					// si la valeur est '*' on affiche un mur
-					// a la localisation x=index de la colonne*22
-					// y= index de la ligne*222
+					// Mur
 					case ('*'):
 						myLabel = new JLabel(new ImageIcon(urlMur));
 						myLabel.setSize(100, 100);
-						myLabel.setLocation(countC * 25, countL * 25);
+						myLabel.setLocation(y * 32, x * 32);
 						break;
-					// si la valeur est ' ' on affiche un l'image vide
-					// a la localisation x=index de la colonne*22
-					// y= index de la ligne*222
+					// Zone de déplacement
 					case (' '):
 						myLabel = new JLabel(new ImageIcon(urlVide));
 						myLabel.setSize(100, 100);
-						myLabel.setLocation(countC * 25, countL * 25);
-						v = new Vertex(countC, countL, myGraph);
+						myLabel.setLocation(y * 32, x * 32);
+						v = new Vertex(x, y, myGraph);
 						break;
-					// si la valeur est 'G' on affiche de l'herbe
-					// a la localisation x=index de la colonne*22
-					// y= index de la ligne*222
+					// Zone d'herbe
 					case ('G'):
 						myLabel = new JLabel(new ImageIcon(urlHerbe));
 						myLabel.setSize(100, 100);
-						myLabel.setLocation(countC * 25, countL * 25);
-						v = new Vertex(countC, countL, myGraph);
+						myLabel.setLocation(y * 32, x * 32);
+						v = new Vertex(x, y, myGraph);
 						break;
-					// si la valeur est 'A' on affiche un fromage
-					// a la localisation x=index de la colonne*22
-					// y= index de la ligne*222
+					// Fromage
 					case ('A'):
+						if (isFirstFromage) {
+							vertexFromage1 = new Vertex(x, y, myGraph);
+							isFirstFromage = false;
+						} else
+							vertexFromage2 = new Vertex(x, y, myGraph);
 						myLabel = new JLabel(new ImageIcon(urlFromage));
 						myLabel.setSize(100, 100);
-						myLabel.setLocation(countC * 25, countL * 25);
-						v = new Vertex(countC, countL, myGraph);
+						myLabel.setLocation(y * 32, x * 32);
 						break;
-					// si la valeur est 'D' on affiche une porte
-					// a la localisation x=index de la colonne*22
-					// y= index de la ligne*222
+					// Porte
 					case ('D'):
 						if (isFirstDoor) {
-							door1 = new Door(countL, countC);
+							door1 = new Door(x, y);
 							isFirstDoor = false;
 						} else
-							door2 = new Door(countL, countC);
+							door2 = new Door(x, y);
 
 						myLabel = new JLabel(new ImageIcon(urlPorte));
 						myLabel.setSize(100, 100);
-						myLabel.setLocation(countC * 25, countL * 25);
+						myLabel.setLocation(y * 32, x * 32);
 						break;
 					}
+					myMap.add(myLabel);
 				}
-				
-				jpMyPanel.add(myLabel);
-				
 			}
+			myMap.setPreferredSize(new Dimension(1176, 664));
 		}
-
-		jpMyPanel.setPreferredSize(new Dimension(900, 500));
 	}
+
 	public char[][] getMatrice() {
 		return matrice;
 	}
@@ -254,56 +202,58 @@ public class FrameCard {
 		String chaine = "";
 		String fichier = url;
 		char[][] matrice;
-		String ligne = "";
-		String contenu = "";
+		String line = "";
+		int nbColumns = 0;
 
-		int l = 0;
-		// lecture du fichier texte
+		int nbLines = 0;
+		// Lecture du fichier texte
 		try {
 			InputStream ips = new FileInputStream(fichier);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 
-			while ((ligne = br.readLine()) != null) {
-				// l++ afin de savoir combien de ligne on a
-				l++;
-				// afin d'avoir tout le contenu du fichier texte
-				// dans une chaine de caractere
-				chaine += ligne;
-				// afin davoir la taille d'une ligne (donc de nb de colonne ds
-				// la matrice)
-				// grace a contenu.length();
-				contenu = ligne;
+			while ((line = br.readLine()) != null) {
+				// Nombre de lignes
+				nbLines++;
+
+				// Contient toute la map.txt
+				chaine += line;
+
+				// Nombre de colonnes
+				nbColumns = line.length();
 			}
 			br.close();
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 
-		matrice = new char[l][contenu.length()];
-		int li = 0;
-		int colonne = 0;
-		// remplissage de la matrice
-		for (int count = 0; count < chaine.length(); count++) {
-			// si on arrive a la fin d'une ligne on incremente la ligne
-			if (colonne == contenu.length()) {
-				li++;
-				// count+=colonne;
-				colonne = 0;
+		matrice = new char[nbLines][nbColumns];
+		int x = 0;
+		int y = 0;
+		// Remplissage de la matrice
+		for (int i = 0; i < chaine.length(); i++) {
+			// Incrémentation de ligne une fois tous les caractères de celle-ci parcourus
+			if (y == nbColumns) {
+				x++;
+				y = 0;
 			}
-			matrice[li][colonne] = chaine.charAt(count);
-			// incrementation de la colonne a chaque passage
-			colonne++;
+			
+			matrice[x][y] = chaine.charAt(i);
+			
+			// Incrementation de la colonne a chaque passage
+			y++;
 		}
-		nbColonne = contenu.length();
-		nbLigne = l;
+		
+		this.nbColonne = nbColumns;
+		this.nbLigne = nbLines;
+		
 		return matrice;
 	}
 
 	public void generateEdges() {
 		char tile;
-		for (int y= 0; y < nbColonne-1; y++) {
-			for (int x = 0; x < nbLigne-1; x++) {
+		for (int y = 0; y < nbColonne - 1; y++) {
+			for (int x = 0; x < nbLigne - 1; x++) {
 				Edge e;
 				Vertex source = null;
 				Vertex target = null;

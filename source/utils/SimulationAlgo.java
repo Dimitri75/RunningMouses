@@ -256,11 +256,7 @@ public class SimulationAlgo {
 							movingMouses.remove(m);
 							mouseA++;
 						}
-						
 					}
-					
-
-					
 				}
 			}
 			if(movingMouses.size() < 1)

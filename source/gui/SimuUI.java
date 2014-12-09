@@ -64,7 +64,7 @@ public class SimuUI extends JFrame {
 		setTitle(_title);
 
 		// Dimensions
-		setSize(1280, 680);
+		setSize(1600, 900);
 
 		// background setting
 		String imagePath = "/res/img/fond.png";
