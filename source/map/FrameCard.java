@@ -179,8 +179,9 @@ public class FrameCard {
 						myLabel.setLocation(y * 32, x * 32);
 						break;
 					}
-					myMap.add(myLabel);
+					
 				}
+				myMap.add(myLabel);
 			}
 			myMap.setPreferredSize(new Dimension(1176, 664));
 		}
