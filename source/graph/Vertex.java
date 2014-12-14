@@ -1,16 +1,24 @@
 package graph;
 
+import java.util.ArrayList;
+
 public class Vertex implements Comparable<Vertex> {
 	private int x, y;
 	private double minDistance = Double.POSITIVE_INFINITY;
 	private Vertex previous;
+	private ArrayList<Edge> adjacencies;
 
 	public Vertex(int x, int y, Graph myGraph) {
 		this.x = x;
 		this.y = y;
+		adjacencies = new ArrayList<Edge>();
 		myGraph.getListVertex().add(this);
 	}
 
+	public ArrayList<Edge> getAdjacencies(){
+		return adjacencies;
+	}
+	
 	public int getX() {
 		return x;
 	}

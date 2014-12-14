@@ -238,9 +238,7 @@ public class SimuUI extends JFrame {
 			// Démarre la simulation
 			public void actionPerformed(ActionEvent arg0) {
 				if (!isLaunched) {
-					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
-					disjktraAlgo.setVertexFromage1(fc.getVertexFromage1());
-					disjktraAlgo.setVertexFromage2(fc.getVertexFromage2());
+					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
 					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
 					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
 					disjktraAlgo.setMatrice(fc.getMatrice());
@@ -252,9 +250,7 @@ public class SimuUI extends JFrame {
 				else if(disjktraAlgo.getMovingMouses().size() == disjktraAlgo.getMouseA()){
 					fc = new FrameCard(map, myLabel, pathToFile);
 					fc.generateEdges();
-					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
-					disjktraAlgo.setVertexFromage1(fc.getVertexFromage1());
-					disjktraAlgo.setVertexFromage2(fc.getVertexFromage2());
+					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
 					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
 					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
 					disjktraAlgo.setMatrice(fc.getMatrice());

@@ -9,6 +9,7 @@ public class Edge {
 		this.source = source;
 		this.target = target;
 		this.weight = weight;
+		source.getAdjacencies().add(this);
 		myGraph.getListEdge().add(this);
 	}
 	
@@ -27,6 +28,7 @@ public class Edge {
 			this.weight = 1;
 			break;
 		}
+		source.getAdjacencies().add(this);
 		myGraph.getListEdge().add(this);
 	}
 	

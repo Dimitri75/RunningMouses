@@ -37,28 +37,27 @@ public class Graph {
 		while (!vertexQueue.isEmpty()) {
 			Vertex current = vertexQueue.poll();
 
-			for (Edge e : getListEdge()) {
-				if (e.getSource().compareTo(current) == 0) {
-					Vertex v = e.getTarget();
-					double weight = e.getWeight();
-					double distanceThroughCurrent = current.getMinDistance()
-							+ weight;
-					if (distanceThroughCurrent < v.getMinDistance()) {
-						vertexQueue.remove(v);
-						v.setMinDistance(distanceThroughCurrent);
-						v.setPrevious(current);
-						vertexQueue.add(v);
-					}
+			for (Edge e : current.getAdjacencies()) {
+				Vertex targetVertex = e.getTarget();
+				double weight = e.getWeight();
+				double distanceThroughCurrent = current.getMinDistance()
+						+ weight;
+				if (distanceThroughCurrent < targetVertex.getMinDistance()) {
+					vertexQueue.remove(targetVertex);
+					targetVertex.setMinDistance(distanceThroughCurrent);
+					targetVertex.setPrevious(current);
+					vertexQueue.add(targetVertex);
 				}
 			}
 		}
 		vertexQueue.clear();
-		
+
 		// GetShortestPath
 		List<Vertex> path = new ArrayList<Vertex>();
-		for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious())
+		for (Vertex vertex = destination; vertex != null; vertex = vertex
+				.getPrevious())
 			path.add(vertex);
-			
+
 		Collections.reverse(path);
 
 		return path;

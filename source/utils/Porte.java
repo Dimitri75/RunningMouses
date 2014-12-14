@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.ArrayList;
-
 import algo.stack.LinkedStack;
 import algo.stack.exception.StackEmptyException;
 

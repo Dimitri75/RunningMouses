@@ -1,12 +1,11 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
 import graph.Graph;
 import graph.Vertex;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SimulationAlgo {
 	private Graph myGraph;
@@ -24,10 +23,12 @@ public class SimulationAlgo {
 
 	private ArrayList<Souris> movingMouses = new ArrayList<>();
 	
-	public SimulationAlgo(Graph myGraph, Door door1, Door door2){
+	public SimulationAlgo(Graph myGraph, Door door1, Door door2, Vertex firstDestination, Vertex secondDestination){
 		this.myGraph = myGraph;
 		this.door1 = door1;
 		this.door2 = door2;
+		this.vertexFromage1 = firstDestination;
+		this.vertexFromage2 = secondDestination;
 		
 		//Calcul des chemins dijkstra
 		for (Vertex v : myGraph.getListVertex()){
@@ -40,6 +41,10 @@ public class SimulationAlgo {
 			if (v.getX() == door1.getX()-1  && v.getY() == door1.getY()){
 				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
 				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
+
+				for (int i = 0; i < firstPath.size(); i++){
+					System.out.println("Coord("+firstPath.get(i).getX()+", "+firstPath.get(i).getY()+")");
+				}
 				
 				if (firstPath.size() >= secondPath.size()){
 					listPaths.put(v, firstPath);
@@ -224,6 +229,7 @@ public class SimulationAlgo {
 						//On calcule les chemins jusqu'aux des fromages
 						path1 = myGraph.dijkstra(v, vertexFromage1);
 						path2 = myGraph.dijkstra(v, vertexFromage2);
+						
 						if(path1.size() < path2.size())
 							m.setMyPath(path1);
 						else
@@ -267,16 +273,6 @@ public class SimulationAlgo {
 
 	public void spawnAllPossibleMouses(Door d){
 		Souris tempSouris;
-		// X - 1 & Y + 1
-		if(matrice[d.getX() - 1][d.getY() + 1] != '*' && (matriceMouse[d.getX() - 1][d.getY() + 1] != 'M'))
-		{
-			tempSouris = d.spawn(d.getX() - 1, d.getY() + 1);
-			if(tempSouris != null)
-			{
-				movingMouses.add(tempSouris);
-				matriceMouse[d.getX() - 1][d.getY() + 1] = 'M';
-			}		
-		}
 		// X & Y + 1
 		if(matrice[d.getX()][d.getY() + 1] != '*' && (matriceMouse[d.getX()][d.getY() + 1] != 'M'))
 		{
@@ -287,16 +283,7 @@ public class SimulationAlgo {
 				matriceMouse[d.getX()][d.getY() + 1] = 'M';
 			}	
 		}
-		// X + 1 & Y + 1
-		if(matrice[d.getX() + 1][d.getY() + 1] != '*' && (matriceMouse[d.getX() + 1][d.getY() + 1] != 'M'))
-		{
-			tempSouris = d.spawn(d.getX() + 1, d.getY() + 1);
-			if(tempSouris != null)
-			{
-				movingMouses.add(tempSouris);
-				matriceMouse[d.getX() + 1][d.getY() + 1] = 'M';
-			}	
-		}
+
 		// X - 1 & Y
 		if(matrice[d.getX() - 1][d.getY()] != '*' && (matriceMouse[d.getX() - 1][d.getY()] != 'M'))
 		{
@@ -307,16 +294,7 @@ public class SimulationAlgo {
 				matriceMouse[d.getX() - 1][d.getY()] = 'M';
 			}	
 		}
-		// X - 1 & Y - 1
-		if(matrice[d.getX() - 1][d.getY() - 1] != '*' && (matriceMouse[d.getX() - 1][d.getY() - 1] != 'M'))
-		{
-			tempSouris = d.spawn(d.getX() - 1, d.getY() - 1);
-			if(tempSouris != null)
-			{
-				movingMouses.add(tempSouris);
-				matriceMouse[d.getX() - 1][d.getY() - 1] = 'M';
-			}	
-		}
+
 		// X + 1  & Y
 		if(matrice[d.getX() + 1][d.getY()] != '*' && (matriceMouse[d.getX() + 1][d.getY()] != 'M'))
 		{
@@ -327,16 +305,7 @@ public class SimulationAlgo {
 				matriceMouse[d.getX() + 1][d.getY()] = 'M';
 			}	
 		}
-		// X + 1 & Y - 1
-		if(matrice[d.getX() + 1][d.getY() - 1] != '*' && (matriceMouse[d.getX() + 1][d.getY() - 1] != 'M'))
-		{
-			tempSouris = d.spawn(d.getX() + 1, d.getY() - 1);
-			if(tempSouris != null)
-			{
-				movingMouses.add(tempSouris);
-				matriceMouse[d.getX() + 1][d.getY() - 1] = 'M';
-			}	
-		}
+
 		// X & Y - 1
 		if(matrice[d.getX()][d.getY() - 1] != '*' && (matriceMouse[d.getX()][d.getY() - 1] != 'M'))
 		{
