@@ -1,0 +1,19 @@
+*************************************************
+*     *       GGGGGGGGGGGGA                     *
+*        A  ********     GGG                    *
+*     *   G *      *            *****************
+*******  G  *      *            *               *
+*     * GG      D  *            *               *
+* GG  *  G  *      *                            *
+****  *     *GGGGGG*            *               *
+*           *GGGGGG*            *               *
+******* GGGG****************    *****************
+*GGGGG*GGG  *              *                    *
+* GGGG*GGG  *   ************                    *
+* GG        *GG *               *****************
+******                          *GGGGGGGGGGGGGGG*
+******                            GGGGGGGGGGGGGD*
+*                               *GGGGGGGGGGGGGGG*
+*    *    GGGGGGGGGGGGGGGGGGGGGG*GGGGGGGGGGGGGGG*
+*    *   GGGGGGGGGGGGGGGGGGGGGGG*GGGGGGGGGGGGGGG*
+*************************************************

@@ -10,7 +10,9 @@ public class Souris {
 	private List<Vertex> myPath;
 	private int indexPath = 0;
 	private boolean isPathCalculated = false;
+	private boolean mouseArrived = false;
 	
+
 	public Souris(){
 		setX(0);
 		setY(0);
@@ -36,11 +38,19 @@ public class Souris {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public boolean isMouseArrived() {
+		return mouseArrived;
+	}
 
+	public void setMouseArrived(boolean mouseArrived) {
+		this.mouseArrived = mouseArrived;
+	}
+	
 	public List<Vertex> getMyPath() {
 		return myPath;
 	}
-
+	
 	public void setMyPath(List<Vertex> myPath) {
 		this.myPath = myPath;
 	}

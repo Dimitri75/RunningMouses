@@ -152,7 +152,7 @@ public class SimuUI extends JFrame {
 				if (timerJob != null) {
 					this.removeAll();
 					fc = new FrameCard(this,timerJob.getDijkstra().getMatriceMouse(), new JLabel(), pathToFile);
-					this.revalidate();
+					//this.revalidate();
 						
 				}
 				
@@ -248,6 +248,19 @@ public class SimuUI extends JFrame {
 					timerJob = new TimerJob(period.getText());
 					timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
 					isLaunched = true;
+				}
+				else if(disjktraAlgo.getMovingMouses().size() == disjktraAlgo.getMouseA()){
+					fc = new FrameCard(map, myLabel, pathToFile);
+					fc.generateEdges();
+					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2());
+					disjktraAlgo.setVertexFromage1(fc.getVertexFromage1());
+					disjktraAlgo.setVertexFromage2(fc.getVertexFromage2());
+					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
+					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
+					disjktraAlgo.setMatrice(fc.getMatrice());
+
+					timerJob = new TimerJob(period.getText());
+					timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
 				}
 				
 			}

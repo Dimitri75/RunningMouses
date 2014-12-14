@@ -45,20 +45,21 @@ public class TimerJob {
 				
 				//Actions du timer job
 				lap++;
+				dijkstra.setNbDep(lap);
 				dijkstra.moveMovingMouses();
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor1());
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor2());
 				//MAJ du text
 				nbTour.setText("Tour : "+lap);
 				nbDeplacements.setText("Déplacements : " +dijkstra.getNbDep());
-				mouseInMov.setText("Souris en déplacements : "+dijkstra.getMovingMouses().size());
+				mouseInMov.setText("Souris en déplacements : "+(dijkstra.getMovingMouses().size()-dijkstra.getMouseA()));
 				mouseArrived.setText("Souris arrivées : "+dijkstra.getMouseA());
 				//Repaint des composants
 				nbTour.repaint();
 				nbDeplacements.repaint();
 				mouseInMov.repaint();
 				mouseArrived.repaint();
-				if(dijkstra.getMovingMouses().size() == 0)
+				if(dijkstra.getMovingMouses().size() == dijkstra.getMouseA())
 					timer.stop();
 				
 			}

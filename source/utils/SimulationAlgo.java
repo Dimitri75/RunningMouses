@@ -222,47 +222,41 @@ public class SimulationAlgo {
 					if(!m.isPathCalculated())
 					{
 						//On calcule les chemins jusqu'aux des fromages
-						System.out.println("Calcul des chemins pour la souris en ("+m.getX()+","+m.getY()+")");
 						path1 = myGraph.dijkstra(v, vertexFromage1);
-						System.out.println("Path 1 :"+path1.size());
 						path2 = myGraph.dijkstra(v, vertexFromage2);
-						System.out.println("Path 2 :"+path2.size());
 						if(path1.size() < path2.size())
 							m.setMyPath(path1);
 						else
 							m.setMyPath(path2);
 						m.setPathCalculated(true);
 					}
-					
-					//On fait avancer la souris dans son path
-					matriceMouse[m.getX()][m.getY()] = ' ';
-					if(m.getIndexPath() < m.getMyPath().size())
+					//Si la souris n'est pas arrivé
+					if(!m.isMouseArrived())
 					{
-						nbDep++;
-						m.setX(m.getMyPath().get(m.getIndexPath()).getX());
-						m.setY(m.getMyPath().get(m.getIndexPath()).getY());
-						m.setIndexPath(m.getIndexPath()+1);
-						matriceMouse[m.getX()][m.getY()] = 'M';
-					}
-					else
-					{
-						if(movingMouses.size() < 1)
+						//On fait avancer la souris dans son path
+						matriceMouse[m.getX()][m.getY()] = ' ';
+						m.setIndexPath(nbDep);
+						//Si elle n'est pas arrivé a la fin
+						if(m.getIndexPath() < m.getMyPath().size())
 						{
-							movingMouses.clear();
-							break;
+							m.setX(m.getMyPath().get(m.getIndexPath()).getX());
+							m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+							matriceMouse[m.getX()][m.getY()] = 'M';
 						}
 						else
 						{
-							movingMouses.remove(m);
 							mouseA++;
+							m.setMouseArrived(true);
 						}
+						
 					}
+					
 				}
 			}
-			if(movingMouses.size() < 1)
-				break;
 		}
-	}
+			
+}
+
 	public void setVertexFromage1(Vertex vertexFromage1) {
 		this.vertexFromage1 = vertexFromage1;
 	}
