@@ -26,7 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import map.FrameCard;
+import map.Map;
 import utils.SimulationAlgo;
 
 public class SimuUI extends JFrame {
@@ -56,7 +56,7 @@ public class SimuUI extends JFrame {
 	
 	private boolean isLaunched = false;
 
-	private FrameCard fc;
+	private Map fc;
 	private JFileChooser jfc;
 	private String pathToFile = "";
 
@@ -102,7 +102,7 @@ public class SimuUI extends JFrame {
 				int returnVal = jfc.showOpenDialog(SimuUI.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					pathToFile = jfc.getSelectedFile().getAbsolutePath();
-					fc = new FrameCard(map, myLabel, pathToFile);
+					fc = new Map(map, myLabel, pathToFile);
 					fc.generateEdges();
 					GroupLayout jpMyPanelLayout = new javax.swing.GroupLayout(
 							map);
@@ -151,7 +151,7 @@ public class SimuUI extends JFrame {
 				super.paintComponent(g);
 				if (timerJob != null) {
 					this.removeAll();
-					fc = new FrameCard(this,timerJob.getDijkstra().getMatriceMouse(), timerJob.getDijkstra().getMovingMouses(), new JLabel(), pathToFile);
+					fc = new Map(this,timerJob.getDijkstra().getMatriceMouse(), timerJob.getDijkstra().getMovingMouses(), new JLabel(), pathToFile);
 					//this.revalidate();
 						
 				}
@@ -237,26 +237,33 @@ public class SimuUI extends JFrame {
 		lancer.addActionListener(new ActionListener() {
 			// Démarre la simulation
 			public void actionPerformed(ActionEvent arg0) {
-				if (!isLaunched) {
-					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
-					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
-					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
-					disjktraAlgo.setMatrice(fc.getMatrice());
+				if(fc!= null || fc.checkMatrice(fc.getMatrice(), fc.getNbLigne(), fc.getNbColonne()))
+				{
+					if (!isLaunched) {
+						disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
+						disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
+						disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
+						disjktraAlgo.setMatrice(fc.getMatrice());
 
-					timerJob = new TimerJob(period.getText());
-					timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
-					isLaunched = true;
+						timerJob = new TimerJob(period.getText());
+						timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+						isLaunched = true;
+					}
+					else if(disjktraAlgo.getMovingMouses().size() == disjktraAlgo.getMouseA()){
+						fc = new Map(map, myLabel, pathToFile);
+						fc.generateEdges();
+						disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
+						disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
+						disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
+						disjktraAlgo.setMatrice(fc.getMatrice());
+
+						timerJob = new TimerJob(period.getText());
+						timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+					}
 				}
-				else if(disjktraAlgo.getMovingMouses().size() == disjktraAlgo.getMouseA()){
-					fc = new FrameCard(map, myLabel, pathToFile);
-					fc.generateEdges();
-					disjktraAlgo = new SimulationAlgo(fc.getMyGraph(), fc.getDoor1(), fc.getDoor2(), fc.getVertexFromage1(), fc.getVertexFromage2());
-					disjktraAlgo.getDoor1().setSize(Integer.parseInt(porte1.getText()));
-					disjktraAlgo.getDoor2().setSize(Integer.parseInt(porte2.getText()));
-					disjktraAlgo.setMatrice(fc.getMatrice());
-
-					timerJob = new TimerJob(period.getText());
-					timerJob.setComponents(disjktraAlgo, pause, nbTour, nbDeplacements, mouseInMov, mouseArrived);
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Votre carte est incorrect. Veuillez charger une autre carte !");
 				}
 				
 			}
