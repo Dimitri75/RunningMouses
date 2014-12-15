@@ -32,14 +32,14 @@ public class TimerJob {
 	
 
 	public TimerJob(String period) {
-		int per = 1000;
+		double per = 1000;
 		try {
-			per = Integer.parseInt(period);
+			per = Double.parseDouble(period);
 			per *= 1000;
 		} catch (Exception e) {
 			e.getMessage();
 		}
-		timer = new Timer(per, new ActionListener(){
+		timer = new Timer((int)per, new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
