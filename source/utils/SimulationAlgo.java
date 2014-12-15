@@ -264,20 +264,21 @@ public class SimulationAlgo {
 							}
 							else
 							{
-								//On fait avancer la souris dans son path
-								matriceMouse[m.getX()][m.getY()] = ' ';
-								//Si elle n'est pas arrivé a la fin
-
+								// Si elle est retardé sur de lherbe - prendre en compte le retard et le reset
 								if(m.getCollisionMinor() == 1)
 								{
-									m.setCollisionMinor(0);
+									
 									m.setIndexPath(m.getIndexPath() + 1 -m.getCollisionMinor());
 									m.setX(m.getMyPath().get(m.getIndexPath()).getX());
 									m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+									m.setCollisionMinor(0);
 								}
 								else
 								{
+									//On fait avancer la souris dans son path
+									matriceMouse[m.getX()][m.getY()] = ' ';
 									m.setIndexPath(m.getIndexPath() + 1);
+									//Si elle n'est pas arrivé a la fin
 									if(m.getIndexPath() < m.getMyPath().size())
 									{
 										m.setX(m.getMyPath().get(m.getIndexPath()).getX());
