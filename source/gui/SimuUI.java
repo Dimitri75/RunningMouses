@@ -151,7 +151,7 @@ public class SimuUI extends JFrame {
 				super.paintComponent(g);
 				if (timerJob != null) {
 					this.removeAll();
-					fc = new FrameCard(this,timerJob.getDijkstra().getMatriceMouse(), new JLabel(), pathToFile);
+					fc = new FrameCard(this,timerJob.getDijkstra().getMatriceMouse(), timerJob.getDijkstra().getMovingMouses(), new JLabel(), pathToFile);
 					//this.revalidate();
 						
 				}

@@ -10,6 +10,7 @@ public class Souris {
 	private List<Vertex> myPath;
 	private int indexPath = 0;
 	private int moveMinor = 0;
+	private String imageIdentifier = "1";
 	
 	private boolean grassMinor = false;
 	private boolean isPathCalculated = false;
@@ -42,6 +43,14 @@ public class Souris {
 		this.moveMinor = collisionMinor;
 	}
 	
+	public String getImageIdentifier() {
+		return imageIdentifier;
+	}
+
+	public void setImageIdentifier(String imageIdentifier) {
+		this.imageIdentifier = imageIdentifier;
+	}
+
 	public int getX() {
 		return x;
 	}

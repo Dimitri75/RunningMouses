@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import utils.Door;
+import utils.Souris;
 
 public class FrameCard {
 	private int nbLigne = 0;
@@ -110,13 +112,18 @@ public class FrameCard {
 	}
 
 	// Constructeur qui affiche les souris en meme temps
-	public FrameCard(JPanel map, char[][] mouseTable, JLabel _myLabel,
+	public FrameCard(JPanel map, char[][] mouseTable, ArrayList<Souris> movingMouses, JLabel _myLabel,
 			String pathToFile) {
 		myMap = map;
 		myLabel = _myLabel;
 
 		String urlFromage = "src/res/img/fromage.png";
 		String urlSabelette = "src/res/img/sabelette.png";
+		String urlBlueMouse = "src/res/img/blueMouse.png";
+		String urlCyanMouse = "src/res/img/cyanMouse.png";
+		String urlGreenMouse = "src/res/img/greenMouse.png";
+		String urlRedMouse = "src/res/img/redMouse.png";
+		String urlWhiteMouse = "src/res/img/whiteMouse.png";
 		String urlPorte = "src/res/img/porte.png";
 		String urlHerbe = "src/res/img/herbe.png";
 		String urlMur = "src/res/img/mur.png";
@@ -131,7 +138,32 @@ public class FrameCard {
 				result = matrice[x][y];
 				
 				if (mouseTable[x][y] == 'M') {
-					myLabel = new JLabel(new ImageIcon(urlSabelette));
+					for(Souris m : movingMouses)
+					{
+						if(m.getX() == x && m.getY() == y)
+							switch(m.getImageIdentifier())
+							{
+								case "0":
+									myLabel = new JLabel(new ImageIcon(urlSabelette));
+									break;
+								case "1":
+									myLabel = new JLabel(new ImageIcon(urlBlueMouse));
+									break;
+								case "2":
+									myLabel = new JLabel(new ImageIcon(urlCyanMouse));
+									break;
+								case "3":
+									myLabel = new JLabel(new ImageIcon(urlGreenMouse));
+									break;
+								case "4":
+									myLabel = new JLabel(new ImageIcon(urlRedMouse));
+									break;
+								case "5":
+									myLabel = new JLabel(new ImageIcon(urlWhiteMouse));
+									break;
+							}
+					}
+					
 					myLabel.setSize(100, 100);
 					myLabel.setLocation(y * 32, x * 32);
 				} else {

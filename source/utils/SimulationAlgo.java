@@ -6,6 +6,7 @@ import graph.Vertex;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class SimulationAlgo {
 	private Graph myGraph;
@@ -209,7 +210,18 @@ public class SimulationAlgo {
 			for(int j =0; j < matrice[0].length; j++)
 				matriceMouse[i][j] = ' ';
 	}
-	
+	public static int randInt(int min, int max) {
+
+	    // NOTE: Usually this should be a field rather than a method
+	    // variable so that it is not re-seeded every call.
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
 	// Utilisation de Djisktra pour mettre a jour les positions des souris
 	public void moveMovingMouses(){
 		List<Vertex> path1, path2;
@@ -230,6 +242,7 @@ public class SimulationAlgo {
 						path1 = myGraph.dijkstra(v, vertexFromage1);
 						path2 = myGraph.dijkstra(v, vertexFromage2);
 						m.setIndexPath(0);
+						
 						if(path1.size() < path2.size())
 							m.setMyPath(path1);
 						else
@@ -313,6 +326,7 @@ public class SimulationAlgo {
 			tempSouris = d.spawn(d.getX(), d.getY() + 1);
 			if(tempSouris != null)
 			{
+				tempSouris.setImageIdentifier(new String(""+randInt(0,5)));
 				movingMouses.add(tempSouris);
 				matriceMouse[d.getX()][d.getY() + 1] = 'M';
 			}	
@@ -324,6 +338,7 @@ public class SimulationAlgo {
 			tempSouris = d.spawn(d.getX() - 1, d.getY());
 			if(tempSouris != null)
 			{
+				tempSouris.setImageIdentifier(new String(""+randInt(0,5)));
 				movingMouses.add(tempSouris);
 				matriceMouse[d.getX() - 1][d.getY()] = 'M';
 			}	
@@ -335,6 +350,7 @@ public class SimulationAlgo {
 			tempSouris = d.spawn(d.getX() + 1, d.getY());
 			if(tempSouris != null)
 			{
+				tempSouris.setImageIdentifier(new String(""+randInt(0,5)));
 				movingMouses.add(tempSouris);
 				matriceMouse[d.getX() + 1][d.getY()] = 'M';
 			}	
@@ -346,6 +362,7 @@ public class SimulationAlgo {
 			tempSouris = d.spawn(d.getX(), d.getY() - 1);
 			if(tempSouris != null)
 			{
+				tempSouris.setImageIdentifier(new String(""+randInt(0,5)));
 				movingMouses.add(tempSouris);
 				matriceMouse[d.getX()][d.getY() - 1] = 'M';
 			}	
