@@ -42,9 +42,9 @@ public class SimulationAlgo {
 				List<Vertex> firstPath = myGraph.dijkstra(v, vertexFromage1);
 				List<Vertex> secondPath = myGraph.dijkstra(v, vertexFromage2);
 
-				for (int i = 0; i < firstPath.size(); i++){
+				/*for (int i = 0; i < firstPath.size(); i++){
 					System.out.println("Coord("+firstPath.get(i).getX()+", "+firstPath.get(i).getY()+")");
-				}
+				}*/
 				
 				if (firstPath.size() >= secondPath.size()){
 					listPaths.put(v, firstPath);
@@ -229,7 +229,7 @@ public class SimulationAlgo {
 						//On calcule les chemins jusqu'aux des fromages
 						path1 = myGraph.dijkstra(v, vertexFromage1);
 						path2 = myGraph.dijkstra(v, vertexFromage2);
-						
+						m.setIndexPath(0);
 						if(path1.size() < path2.size())
 							m.setMyPath(path1);
 						else
@@ -239,24 +239,49 @@ public class SimulationAlgo {
 					//Si la souris n'est pas arrivé
 					if(!m.isMouseArrived())
 					{
-						//On fait avancer la souris dans son path
-						matriceMouse[m.getX()][m.getY()] = ' ';
-						m.setIndexPath(nbDep);
-						//Si elle n'est pas arrivé a la fin
-						if(m.getIndexPath() < m.getMyPath().size())
-						{
-							m.setX(m.getMyPath().get(m.getIndexPath()).getX());
-							m.setY(m.getMyPath().get(m.getIndexPath()).getY());
-							matriceMouse[m.getX()][m.getY()] = 'M';
-						}
+						// Si la souris a passé le tour sur de lherbe on desactive le blocage
+						if(m.isGrassMinor())
+							m.setGrassMinor(false);
+						//Sinon on la fait avancer
 						else
 						{
-							mouseA++;
-							m.setMouseArrived(true);
+							//On fait avancer la souris dans son path
+							matriceMouse[m.getX()][m.getY()] = ' ';
+							//Si elle n'est pas arrivé a la fin
+							
+							if(m.getCollisionMinor() == 1)
+							{
+								m.setCollisionMinor(0);
+								m.setIndexPath(m.getIndexPath() + 1 -m.getCollisionMinor());
+								m.setX(m.getMyPath().get(m.getIndexPath()).getX());
+								m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+							}
+							else
+							{
+								m.setIndexPath(m.getIndexPath() + 1);
+								if(m.getIndexPath() < m.getMyPath().size())
+								{
+									m.setX(m.getMyPath().get(m.getIndexPath()).getX());
+									m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+									if(matrice[m.getX()][m.getY()] == 'G'){
+										m.setGrassMinor(true);
+										m.setCollisionMinor(1);
+									}
+								}
+								else
+								{
+									mouseA++;
+									m.setMouseArrived(true);
+								}
+							}
+							matriceMouse[m.getX()][m.getY()] = 'M';
+
+
 						}
-						
+
+
 					}
-					
+
 				}
 			}
 		}

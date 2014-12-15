@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 import utils.SimulationAlgo;
+import utils.Souris;
 
 public class TimerJob {
 	
@@ -42,16 +43,19 @@ public class TimerJob {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				int nbDep = 0;
+				for(Souris m : dijkstra.getMovingMouses())
+				{
+					nbDep +=m.getIndexPath();
+				}
 				//Actions du timer job
 				lap++;
-				dijkstra.setNbDep(lap);
 				dijkstra.moveMovingMouses();
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor1());
 				dijkstra.spawnAllPossibleMouses(dijkstra.getDoor2());
 				//MAJ du text
 				nbTour.setText("Tour : "+lap);
-				nbDeplacements.setText("Déplacements : " +dijkstra.getNbDep());
+				nbDeplacements.setText("Déplacements : " +nbDep);
 				mouseInMov.setText("Souris en déplacements : "+(dijkstra.getMovingMouses().size()-dijkstra.getMouseA()));
 				mouseArrived.setText("Souris arrivées : "+dijkstra.getMouseA());
 				//Repaint des composants

@@ -9,6 +9,9 @@ public class Souris {
 	private int y;
 	private List<Vertex> myPath;
 	private int indexPath = 0;
+	private int moveMinor = 0;
+	
+	private boolean grassMinor = false;
 	private boolean isPathCalculated = false;
 	private boolean mouseArrived = false;
 	
@@ -22,7 +25,23 @@ public class Souris {
 		setX(_x);
 		setY(_y);
 	}
+	
+	public boolean isGrassMinor() {
+		return grassMinor;
+	}
 
+	public void setGrassMinor(boolean grassMinor) {
+		this.grassMinor = grassMinor;
+	}
+	
+	public int getCollisionMinor() {
+		return moveMinor;
+	}
+
+	public void setCollisionMinor(int collisionMinor) {
+		this.moveMinor = collisionMinor;
+	}
+	
 	public int getX() {
 		return x;
 	}

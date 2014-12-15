@@ -223,8 +223,8 @@ public class SimuUI extends JFrame {
 		porte1 = new JTextArea(1, 5);
 		porte2 = new JTextArea(1, 5);
 		period = new JTextArea(1, 10);
-		porte1.setText("5");
-		porte2.setText("5");
+		porte1.setText("1");
+		porte2.setText("1");
 		period.setText("1");
 		pause = new JButton("Pause");
 		pause.addActionListener(new ActionListener() {
