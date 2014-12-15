@@ -245,36 +245,45 @@ public class SimulationAlgo {
 						//Sinon on la fait avancer
 						else
 						{
-							//On fait avancer la souris dans son path
-							matriceMouse[m.getX()][m.getY()] = ' ';
-							//Si elle n'est pas arrivé a la fin
-							
-							if(m.getCollisionMinor() == 1)
+							if(m.getIndexPath()+1 < m.getMyPath().size() && matriceMouse[m.getMyPath().get(m.getIndexPath()+1).getX()][m.getMyPath().get(m.getIndexPath()+1).getY()] == 'M')
 							{
-								m.setCollisionMinor(0);
-								m.setIndexPath(m.getIndexPath() + 1 -m.getCollisionMinor());
-								m.setX(m.getMyPath().get(m.getIndexPath()).getX());
-								m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+								
 							}
 							else
 							{
-								m.setIndexPath(m.getIndexPath() + 1);
-								if(m.getIndexPath() < m.getMyPath().size())
+								//On fait avancer la souris dans son path
+								matriceMouse[m.getX()][m.getY()] = ' ';
+								//Si elle n'est pas arrivé a la fin
+
+								if(m.getCollisionMinor() == 1)
 								{
+									m.setCollisionMinor(0);
+									m.setIndexPath(m.getIndexPath() + 1 -m.getCollisionMinor());
 									m.setX(m.getMyPath().get(m.getIndexPath()).getX());
 									m.setY(m.getMyPath().get(m.getIndexPath()).getY());
-									if(matrice[m.getX()][m.getY()] == 'G'){
-										m.setGrassMinor(true);
-										m.setCollisionMinor(1);
-									}
 								}
 								else
 								{
-									mouseA++;
-									m.setMouseArrived(true);
+									m.setIndexPath(m.getIndexPath() + 1);
+									if(m.getIndexPath() < m.getMyPath().size())
+									{
+										m.setX(m.getMyPath().get(m.getIndexPath()).getX());
+										m.setY(m.getMyPath().get(m.getIndexPath()).getY());
+										if(matrice[m.getX()][m.getY()] == 'G'){
+											m.setGrassMinor(true);
+											m.setCollisionMinor(1);
+										}
+										matriceMouse[m.getX()][m.getY()] = 'M';
+									}
+									else
+									{
+										mouseA++;
+										m.setMouseArrived(true);
+									}
 								}
+								
 							}
-							matriceMouse[m.getX()][m.getY()] = 'M';
+
 
 
 						}
